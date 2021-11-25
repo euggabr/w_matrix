@@ -9,6 +9,7 @@ st.set_page_config(layout="wide")
 st.title('Simulationstool')
 
 df_sum = pd.DataFrame()
+st.write('df_preis beginn')
 df_preis = pd.read_excel('df_preis.xlsx')
 df_preis = df_preis.drop('Unnamed: 0', axis=1)
 st.write('df_preis')
