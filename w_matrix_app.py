@@ -11,8 +11,10 @@ st.title('Simulationstool')
 df_sum = pd.DataFrame()
 df_preis = pd.read_excel('df_preis.xlsx')
 df_preis = df_preis.drop('Unnamed: 0', axis=1)
+st.write('df_preis')
 
 data = pd.read_excel('0.2-Wertungsmatrix 21FEA52724 RV FT EUGEN Bieter VR.xlsm',  sheet_name=None, header=0)
+st.write('Wertungsmatrix')
 col1, col2, col3 =st.beta_columns(3)
 with col1:
 
