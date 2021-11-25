@@ -9,10 +9,10 @@ st.set_page_config(layout="wide")
 st.title('Simulationstool')
 
 df_sum = pd.DataFrame()
-st.write('df_preis beginn')
+
 df_preis = pd.read_excel('df_preis.xlsx')
 df_preis = df_preis.drop('Unnamed: 0', axis=1)
-st.write('df_preis')
+
 
 data = pd.read_excel('0.2-Wertungsmatrix 21FEA52724 RV FT EUGEN Bieter VR.xlsm',  sheet_name=None, header=0)
 st.write('Wertungsmatrix')
@@ -55,30 +55,26 @@ with col1:
             block_1['Einheitspreis'] = block_1['Einheitspreis'] * proc_bieter_1
             block_1['Faktor Block']= 1
             block_1['Faktor x Preis'] = block_1['Einheitspreis'] * block_1['Wichtungs-\nFaktor'] * block_1['Faktor Block']
-            #block_1['Faktor x Preis'] = block_1['Einheitspreis'] * block_1['Wichtungs-\nFaktor']
             block_1['Einheitspreis']=block_1['Einheitspreis'].fillna(0)
             block_1['Faktor x Preis']= block_1['Faktor x Preis'].fillna(0)
             block_1.append(block_1[['Einheitspreis', 'Faktor x Preis']].sum(), ignore_index=True)
-            #block_1['Preis'] = block_1['Einheitspreis']
-            #block_1 = block_1.drop('Einheitspreis', axis=1)
+
 
 
 
             df_sum_temp = df_sum_temp.append(block_1[['Einheitspreis', 'Faktor x Preis']].sum(), ignore_index=True)
-            #df_sum_temp['Faktor'] = block_1['Faktor x Preis'] / block_1['Einheitspreis']
-            #df_sum_temp['Faktor'] = block_1['Wichtungs-\nFaktor']
+
             df_sum_temp['% vom Einheitspreis'] =proc_bieter_1 *100
 
             df_sum_temp['Faktor Block'] = block_1['Faktor Block'][0]
             df_sum_temp['Bieter'] =1
             df_sum_temp['Block'] =i
             df_sum = pd.concat([df_sum, df_sum_temp])
-    #st.table(df_sum)
 
 
 
 
-#st.table(block_1)
+
 with col2:
     counter =0
     proc_bieter_2= st.number_input('% für Bieter 2', value =  80)
@@ -155,7 +151,7 @@ with col3:
             block_3 = pd.merge(w_matr, df_preis, how='left', on = 'OZ')
             block_3['Einheitspreis'] = block_3['Einheitspreis'] * proc_bieter_3
             block_3['Faktor Block']= 1
-            block_3['Faktor x Preis'] = block_3['Einheitspreis'] * block_2['Wichtungs-\nFaktor'] * block_3['Faktor Block']
+            block_3['Faktor x Preis'] = block_3['Einheitspreis'] * block_3['Wichtungs-\nFaktor'] * block_3['Faktor Block']
             block_3['Einheitspreis']=block_3['Einheitspreis'].fillna(0)
             block_3['Faktor x Preis']= block_3['Faktor x Preis'].fillna(0)
             block_3.append(block_3[['Einheitspreis', 'Faktor x Preis']].sum(), ignore_index=True)
@@ -183,7 +179,7 @@ for i in list(data.keys())[1:]:
         block_4 = pd.merge(w_matr, df_preis, how='left', on = 'OZ')
         block_4['Einheitspreis'] = block_4['Einheitspreis'] * proc_bieter_4
         block_4['Faktor Block']= 1
-        block_4['Faktor x Preis'] = block_4['Einheitspreis'] * block_2['Wichtungs-\nFaktor'] * block_3['Faktor Block']
+        block_4['Faktor x Preis'] = block_4['Einheitspreis'] * block_4['Wichtungs-\nFaktor'] * block_4['Faktor Block']
         block_4['Einheitspreis']=block_4['Einheitspreis'].fillna(0)
         block_4['Faktor x Preis']= block_4['Faktor x Preis'].fillna(0)
         block_4.append(block_4[['Einheitspreis', 'Faktor x Preis']].sum(), ignore_index=True)
@@ -240,14 +236,12 @@ with col2:
             block_5['Faktor x Preis']= block_5['Faktor x Preis'].fillna(0)
 
             block_5.append(block_5[['Einheitspreis', 'Faktor x Preis']].sum(), ignore_index=True)
-            #block_1['Preis'] = block_1['Einheitspreis']
-            #block_1 = block_1.drop('Einheitspreis', axis=1)
+
 
 
 
             df_sum_temp = df_sum_temp.append(block_5[['Einheitspreis', 'Faktor x Preis']].sum(), ignore_index=True)
-            #df_sum_temp['Faktor'] = block_1['Faktor x Preis'] / block_1['Einheitspreis']
-            #df_sum_temp['Faktor'] = block_2['Wichtungs-\nFaktor']
+
             df_sum_temp['% vom Einheitspreis'] =proc_bieter_5 *100
 
             df_sum_temp['Bieter'] =5
@@ -266,12 +260,10 @@ st.table(resul_sum)
 st.title('Details')
 st.table(resul)
 
-st.title('df_sum')
-st.table(df_sum)
+#st.title('df_sum')
+#st.table(df_sum)
 
-#col4, col5  =st.beta_columns(2)
 
-#with col4:
 writer = pd.ExcelWriter('wertungsmatrix_blocks.xlsx', engine='xlsxwriter')
 for i in list(data.keys())[1:]:
     if i in ['Block 1', 'Block 2', 'Block 3', 'Block 4', 'Block 5']:
@@ -304,6 +296,3 @@ for i in list(data.keys())[1:]:
 # Close the Pandas Excel writer and output the Excel file.
 writer.save()
 
-
-#st.table(resul)
-#st.table(df_sum)
